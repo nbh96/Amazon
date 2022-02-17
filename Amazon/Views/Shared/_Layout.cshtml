@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="bg-dark text-white p-2">
+        <span class="navbar-brand ml-2">Book List</span>
+    </div>
+
+    <div class="row m-1 p-1">
+
+        <div id="types" class="col-3">
+            This is a Book List
+        </div>
+
+        <div class="col-9">
+
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
