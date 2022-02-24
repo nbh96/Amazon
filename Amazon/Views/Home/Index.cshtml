@@ -4,32 +4,9 @@
 
 @model BooksViewModel
 
-    
-
-<h1>Book List</h1>
-
 @foreach (Book b in Model.Books)
 {
-    <div class="card card-outline-primary m-1 p-1">
-        <div class="bg-light p-1">
-            <h4>@b.Title</h4>
-
-            <span class="badge bg-dark" style="float:right">
-                Price: $@b.Price
-            </span>
-        </div>
-        
-
-        <ul>
-            <li>Author: @b.Author</li>
-            <li>Publisher: @b.Publisher</li>
-            <li>ISBN: @b.Isbn</li>
-            <li>Classification: @b.Classification</li>
-            <li>Category: @b.Category</li>
-            <li>Page Count: @b.PageCount</li>
-            
-        </ul>
-    </div>
+    <partial name="ProjectSummary" model="b" />
 }
 
     <div page-model="@Model.PageInfo" page-action="Index" page-class="btn"

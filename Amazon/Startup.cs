@@ -53,6 +53,21 @@ namespace Amazon
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    "categorypage",
+                    "{categoryType}/Page{pageNum}",
+                    new { Controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    "Paging",
+                    "Page{pageNum}",
+                    new { Controller = "Home", action = "Index", pageNum = 3 });
+
+                endpoints.MapControllerRoute(
+                    "category",
+                    "{categoryType}",
+                    new { Controller = "Home", action = "Index", pageNum = 1 });
+
                 endpoints.MapDefaultControllerRoute();
             });
         }
