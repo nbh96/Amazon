@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Amazon.Infrastructure
+namespace WaterProject.Infrastructure
 {
     //what this tag helper will be used with
     [HtmlTargetElement("div", Attributes = "page-model")]

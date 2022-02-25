@@ -18,12 +18,12 @@ namespace Amazon.Components
         {
             ViewBag.SelectedType = RouteData?.Values["category"];
 
-            var category = repo.Books
+            var categories = repo.Books
                 .Select(x => x.Category)
                 .Distinct()
                 .OrderBy(x => x);
 
-            return View(category);
+            return View(categories);
         }
     }
 }
