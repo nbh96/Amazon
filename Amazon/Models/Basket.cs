@@ -7,9 +7,11 @@ namespace Amazon.Models
 {
     public class Basket
     {
+        public int quanity;
+
         public List<BasketLineItem> Items { get; set; } = new List<BasketLineItem>();
 
-        public void AddItem (Book bk, int qty)
+        public void AddItem (Book bk, int qty, double price)
         {
             BasketLineItem line = Items
                 .Where(b => b.Book.BookId == bk.BookId)
@@ -20,18 +22,22 @@ namespace Amazon.Models
                 Items.Add(new BasketLineItem
                 {
                     Book = bk,
-                    Quantity = qty
+                    Quantity = qty,
+                    Price = price
                 });
             }
             else
             {
                 line.Quantity += qty;
+                line.Price += price;
             }
         }
 
         public double CalculateTotal()
         {
-            double sum = Items.Sum(x => x.Quantity * 20);
+
+            double sum = Items.Sum(x => x.Quantity > 1 ? x.Price : x.Quantity * x.Price);
+
 
             return sum;
         }
@@ -42,5 +48,6 @@ namespace Amazon.Models
         public int LineID { get; set; }
         public Book Book { get; set; }
         public int Quantity { get; set; }
+        public double Price { get; set; }
     }
 }

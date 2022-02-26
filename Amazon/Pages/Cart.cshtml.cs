@@ -29,7 +29,7 @@ namespace Amazon.Pages
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookID);
 
             basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
-            basket.AddItem(b, 1);
+            basket.AddItem(b, 1, b.Price);
 
             HttpContext.Session.SetJson("basket", basket);
 
