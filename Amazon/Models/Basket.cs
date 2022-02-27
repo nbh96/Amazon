@@ -35,11 +35,19 @@ namespace Amazon.Models
 
         public double CalculateTotal()
         {
-
-            double sum = Items.Sum(x => x.Quantity > 1 ? x.Price : x.Quantity * x.Price);
-
+            double sum = Items.Sum(x =>  x.Price );
 
             return sum;
+        }
+
+        public virtual void ClearBasket()
+        {
+            Items.Clear();
+        }
+
+        public virtual void RemoveItems(Book bk)
+        {
+            Items.RemoveAll(x => x.Book.BookId == bk.BookId);
         }
     }
 
