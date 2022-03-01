@@ -11,7 +11,7 @@ namespace Amazon.Models
 
         public List<BasketLineItem> Items { get; set; } = new List<BasketLineItem>();
 
-        public void AddItem (Book bk, int qty, double price)
+        public virtual void AddItem (Book bk, int qty, double price)
         {
             BasketLineItem line = Items
                 .Where(b => b.Book.BookId == bk.BookId)

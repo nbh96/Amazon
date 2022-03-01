@@ -13,25 +13,29 @@ namespace Amazon.Pages
     {
         private IBookRepository repo { get; set; }
         public string ReturnUrl { get; set; }
-        public CartModel (IBookRepository temp)
+        public CartModel (IBookRepository temp, Basket b)
         {
             repo = temp;
+            basket = b;
         }
 
         public Basket basket { get; set; }
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
         }
         public IActionResult OnPost(int bookID, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookID);
 
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
             basket.AddItem(b, 1, b.Price);
 
-            HttpContext.Session.SetJson("basket", basket);
+            return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
+
+        public IActionResult OnPostRemove(int bookID, string returnUrl)
+        {
+            basket.RemoveItems(basket.Items.First(x => x.Book.BookId == bookID).Book);
 
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }
