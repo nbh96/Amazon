@@ -33,6 +33,7 @@ namespace Amazon
             });
 
             services.AddScoped<IBookRepository, EFBookRepository>();
+            services.AddScoped<ICartRepository, EFCartRepository>();
             services.AddRazorPages();
             services.AddSession();
 
