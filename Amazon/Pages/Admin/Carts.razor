@@ -1,0 +1,41 @@
+﻿@page "/admin/carts"
+
+@inherits OwningComponentBase<ICartRepository>
+
+<CartTable TableTitle="Unshipped Orders" Orders="UnshippedOrders"
+               ButtonLabel="Shipped" OrderSelected="ShipOrder"></CartTable>
+
+<CartTable TableTitle="Shipped Orders" Orders="ShippedOrders"
+               ButtonLabel="Reset" OrderSelected="ResetOrder"></CartTable>
+
+<button class="btn btn-info" @onclick="@(x => UpdateData())">Refresh Data</button>
+
+@code {
+    public ICartRepository repo => Service;
+
+    public IEnumerable<Cart> AllOrders { get; set; }
+    public IEnumerable<Cart> UnshippedOrders { get; set; }
+    public IEnumerable<Cart> ShippedOrders { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        AllOrders = await repo.Items.ToListAsync();
+        UnshippedOrders = AllOrders.Where(x => !x.OrderShipped);
+        ShippedOrders = AllOrders.Where(x => x.OrderShipped);
+    }
+
+    public void ShipOrder(int id) => UpdateOrder(id, true);
+    public void ResetOrder(int id) => UpdateOrder(id, false);
+
+    private void UpdateOrder(int id, bool shipped)
+    {
+        Cart c = repo.Items.FirstOrDefault(x => x.ObjectId == id);
+        c.OrderShipped = shipped;
+        repo.SaveCart(c);
+    }
+}
