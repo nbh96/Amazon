@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,12 @@ namespace Amazon
                 options.UseSqlite(Configuration["ConnectionStrings:BookDBConnection"]);
             });
 
+            services.AddDbContext<AppIdentityDBContext>(options =>
+                options.UseSqlite(Configuration["ConnectionStrings:IdentityConnection"]));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDBContext>();
+
             services.AddScoped<IBookRepository, EFBookRepository>();
             services.AddScoped<ICartRepository, EFCartRepository>();
             services.AddRazorPages();
@@ -60,6 +67,9 @@ namespace Amazon
             app.UseSession();
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -83,6 +93,8 @@ namespace Amazon
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
             });
+
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
